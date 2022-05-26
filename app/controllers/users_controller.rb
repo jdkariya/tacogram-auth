@@ -9,7 +9,12 @@ class UsersController < ApplicationController
     @user["last_name"] = params["user"]["last_name"]
     @user["email"] = params["user"]["email"]
     @user["password"] = BCrypt::Password.create(params["user"]["password"])
-    @user.save
-    redirect_to "/posts"
+    if User.find_by({ "email" => params["user"]["email"] })
+      flash["notice"] = "Email already registered"
+      redirect_to "/users/new"
+    else 
+      @user.save
+      redirect_to "/posts"
+    end
   end
 end
