@@ -14,6 +14,7 @@ class UsersController < ApplicationController
       redirect_to "/users/new"
     else 
       @user.save
+      session["user_id"] = @user["id"]
       redirect_to "/posts"
     end
   end
